@@ -14,6 +14,7 @@ class CommonImageView extends StatelessWidget {
   File? file;
   double? height;
   double? width;
+  Color? color;
   final BoxFit fit;
   final String placeHolder;
 
@@ -26,6 +27,7 @@ class CommonImageView extends StatelessWidget {
     this.file,
     this.height,
     this.width,
+    this.color,
     this.fit = BoxFit.fill,
     this.placeHolder = 'assets/images/image_not_found.png',
   });
@@ -44,6 +46,7 @@ class CommonImageView extends StatelessWidget {
           svgPath!,
           height: height,
           width: width,
+          color: color,
           fit: fit,
         ),
       );

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'collection.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename:FieldRename.snake)
 class Collection {
   int id;
   String name;

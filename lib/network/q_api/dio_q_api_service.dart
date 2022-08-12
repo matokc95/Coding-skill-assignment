@@ -21,6 +21,9 @@ class DioQApiService {
     try {
       var dio = serviceLocatorInstance<DioQApi>().dio;
       dio.options.headers["Content-Type"] = "application/json";
+      if(uri.contains("genre")){
+        dio.options.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiOGQ3Zjc2OTQ3OTA0YTAxMTI4NmRjNzMyYzU1MjM0ZSIsInN1YiI6IjYwMzM3ODBiMTEzODZjMDAzZjk0ZmM2YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XYuIrLxvowrkevwKx-KhOiOGZ2Tn-R8tEksXq842kX4";
+      }
       var response = await dio.get(
             uri,
             queryParameters: queryParameters,

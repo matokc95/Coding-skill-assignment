@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'production_country.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename:FieldRename.snake)
 class ProductionCountry {
   String iso31661;
   String name;

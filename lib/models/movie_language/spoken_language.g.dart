@@ -8,14 +8,14 @@ part of 'spoken_language.dart';
 
 SpokenLanguage _$SpokenLanguageFromJson(Map<String, dynamic> json) =>
     SpokenLanguage(
-      json['englishName'] as String,
+      json['english_name'] as String,
       json['iso6391'] as String,
       json['name'] as String,
     );
 
 Map<String, dynamic> _$SpokenLanguageToJson(SpokenLanguage instance) =>
     <String, dynamic>{
-      'englishName': instance.englishName,
+      'english_name': instance.englishName,
       'iso6391': instance.iso6391,
       'name': instance.name,
     };

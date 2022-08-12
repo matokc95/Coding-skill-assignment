@@ -12,7 +12,6 @@ class PopularScreen extends StatelessWidget {
           backgroundColor: ColorConstant.gray900,
           title: Padding(
             padding: getPadding(
-              left: 20,
               top: 29,
               right: 23,
             ),
@@ -27,13 +26,15 @@ class PopularScreen extends StatelessWidget {
             ),
           ),
           bottom: PreferredSize(
+            preferredSize: Size.fromHeight(40),
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: getPadding(
-                    left: 20,
+                    left: 15,
                     right: 20,
+                    bottom: 10
                   ),
                   child: Text(
                     "Popular",
@@ -52,7 +53,6 @@ class PopularScreen extends StatelessWidget {
                 ),
               ],
             ),
-            preferredSize: Size.fromHeight(40),
           ),
         ),
         backgroundColor: ColorConstant.gray900,
@@ -65,43 +65,6 @@ class PopularScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: getPadding(
-                      left: 23,
-                      top: 29,
-                      right: 23,
-                    ),
-                    child: CommonImageView(
-                      svgPath: ImageConstant.imgLocation24X24,
-                      height: getSize(
-                        24.00,
-                      ),
-                      width: getSize(
-                        24.00,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: getPadding(
-                      left: 20,
-                      top: 36,
-                      right: 20,
-                    ),
-                    child: Text(
-                      "Popular",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.indigo50,
-                        fontSize: getFontSize(
-                          22,
-                        ),
-                        fontFamily: 'SF Pro Display',
-                        fontWeight: FontWeight.w600,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
                   Align(
                     alignment: Alignment.center,
                     child: Padding(
@@ -372,150 +335,6 @@ class PopularScreen extends StatelessWidget {
                           return ListintouchablesItemWidget();
                         },
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: getMargin(
-                      top: 40,
-                    ),
-                    decoration: BoxDecoration(
-                      color: ColorConstant.black900,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(
-                          getHorizontalSize(
-                            20.00,
-                          ),
-                        ),
-                        bottomRight: Radius.circular(
-                          getHorizontalSize(
-                            20.00,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: getVerticalSize(
-                            2.00,
-                          ),
-                          width: getHorizontalSize(
-                            110.00,
-                          ),
-                          margin: getMargin(
-                            left: 38,
-                            right: 38,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.orangeA200,
-                            borderRadius: BorderRadius.circular(
-                              getHorizontalSize(
-                                1.00,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: getPadding(
-                              left: 38,
-                              top: 18,
-                              right: 38,
-                              bottom: 21,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: getPadding(
-                                    top: 1,
-                                    bottom: 1,
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CommonImageView(
-                                        svgPath: ImageConstant.imgFolder16X20,
-                                        height: getVerticalSize(
-                                          16.00,
-                                        ),
-                                        width: getHorizontalSize(
-                                          20.00,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: getPadding(
-                                          left: 10,
-                                          top: 1,
-                                          bottom: 2,
-                                        ),
-                                        child: Text(
-                                          "Movies",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            color: ColorConstant.orangeA200,
-                                            fontSize: getFontSize(
-                                              12,
-                                            ),
-                                            fontFamily: 'SF Pro Display',
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.00,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CommonImageView(
-                                      svgPath: ImageConstant.imgMap,
-                                      height: getVerticalSize(
-                                        18.00,
-                                      ),
-                                      width: getHorizontalSize(
-                                        17.00,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: getPadding(
-                                        left: 9,
-                                        top: 3,
-                                        bottom: 3,
-                                      ),
-                                      child: Text(
-                                        "Favourites",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          color: ColorConstant.indigo50,
-                                          fontSize: getFontSize(
-                                            12,
-                                          ),
-                                          fontFamily: 'SF Pro Display',
-                                          fontWeight: FontWeight.w600,
-                                          height: 1.00,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],

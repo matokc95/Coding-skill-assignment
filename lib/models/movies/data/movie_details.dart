@@ -1,4 +1,4 @@
-import 'package:assignment/models/genres/genre.dart';
+import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movie_language/spoken_language.dart';
 import 'package:assignment/models/production/company/production_company.dart';
 import 'package:assignment/models/production/country/production_country.dart';

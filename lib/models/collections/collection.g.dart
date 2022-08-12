@@ -9,14 +9,14 @@ part of 'collection.dart';
 Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
       json['id'] as int,
       json['name'] as String,
-      json['posterPath'] as String,
-      json['backdropPath'] as String,
+      json['poster_path'] as String,
+      json['backdrop_path'] as String,
     );
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'posterPath': instance.posterPath,
-      'backdropPath': instance.backdropPath,
+      'poster_path': instance.posterPath,
+      'backdrop_path': instance.backdropPath,
     };
