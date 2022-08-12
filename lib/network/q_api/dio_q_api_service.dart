@@ -25,7 +25,7 @@ class DioQApiService {
             uri,
             queryParameters: queryParameters,
             options: options,
-            cancelToken: cancelToken,
+            //cancelToken: cancelToken,
             onReceiveProgress: onReceiveProgress,
           );
 

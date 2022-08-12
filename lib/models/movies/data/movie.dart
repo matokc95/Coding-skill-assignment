@@ -6,18 +6,18 @@ part 'movie.g.dart';
 class Movie {
   int id;
   bool adult;
-  String backdropPath;
-  List<int> genreIds;
-  String originalLanguage;
-  String originalTitle;
+  String? backdropPath;
+  List<int>? genreIds;
+  String? originalLanguage;
+  String? originalTitle;
   String overview;
-  double popularity;
-  String posterPath;
-  DateTime releaseDate;
-  String title;
-  bool video;
-  double voteAverage;
-  int voteCount;
+  double? popularity;
+  String? posterPath;
+  DateTime? releaseDate;
+  String? title;
+  bool? video;
+  double? voteAverage;
+  int? voteCount;
 
 
   Movie(
