@@ -37,7 +37,7 @@ class Movie {
       this.voteAverage,
       this.voteCount);
 
-  static formattedMovieToJson(MovieExtended movieExtended){
+  static formattedMovieDaoToJson(MovieExtended movieExtended){
     return <String, dynamic>{
       'id': movieExtended.movie.id,
       'adult': movieExtended.movie.adult,
@@ -57,6 +57,7 @@ class Movie {
   }
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 }

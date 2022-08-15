@@ -22,7 +22,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       json['title'] as String?,
       json['video'] as bool?,
       (json['vote_average'] as num?)?.toDouble(),
-      json['vote_count'] as int?,
+      json['vote_count'] as int?
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{

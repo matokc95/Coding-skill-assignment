@@ -1,10 +1,23 @@
 import 'package:assignment/common/app_export.dart';
+import 'package:assignment/models/genres/data/genre.dart';
+import 'package:assignment/models/movies/data/movie.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class ListintouchablesItemWidget extends StatelessWidget {
-  ListintouchablesItemWidget();
+class ListintouchablesItemWidget extends StatefulWidget {
+  final Movie movie;
+  final List<Genre> genres;
 
+  const ListintouchablesItemWidget(
+      {Key? key, required this.movie, required this.genres})
+      : super(key: key);
+
+  @override
+  State<ListintouchablesItemWidget> createState() =>
+      _ListintouchablesItemWidgetState();
+}
+
+class _ListintouchablesItemWidgetState
+    extends State<ListintouchablesItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -12,6 +25,7 @@ class ListintouchablesItemWidget extends StatelessWidget {
       child: Padding(
         padding: getPadding(
           top: 10.0,
+          left: 15,
           bottom: 10.0,
         ),
         child: Row(
@@ -35,6 +49,7 @@ class ListintouchablesItemWidget extends StatelessWidget {
               ),
             ),
             Container(
+              width: getHorizontalSize(200),
               margin: getMargin(
                 left: 16,
                 top: 2,
@@ -50,7 +65,7 @@ class ListintouchablesItemWidget extends StatelessWidget {
                       right: 10,
                     ),
                     child: Text(
-                      "Intouchables",
+                      widget.movie.originalTitle ?? "N/A",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -72,7 +87,7 @@ class ListintouchablesItemWidget extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
@@ -95,7 +110,9 @@ class ListintouchablesItemWidget extends StatelessWidget {
                             top: 2,
                           ),
                           child: Text(
-                            "8.5 / 10 IMDb",
+                            widget.movie.voteAverage != null
+                                ? "${widget.movie.voteAverage!.toStringAsFixed(1)} / 10 IMDb"
+                                : "N/A",
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -112,111 +129,38 @@ class ListintouchablesItemWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    width: getHorizontalSize(
-                      186.00,
+                  Padding(
+                    padding: getPadding(top: 10),
+                    child: Container(
+                      width: getHorizontalSize(200),
+                      child: Expanded(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (Genre genre in widget.genres)
+                                Padding(
+                                  padding: getPadding(right: 10, top: 10),
+                                  child: Expanded(
+                                    child: Text(
+                                      genre.name,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.indigo50,
+                                        fontSize: getFontSize(
+                                          11,
+                                        ),
+                                        fontFamily: 'SF Pro',
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.00,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ]),
+                      ),
                     ),
-                    margin: getMargin(
-                      top: 12,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          padding: getPadding(
-                            left: 8,
-                            top: 4,
-                            right: 8,
-                            bottom: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.orangeA20033,
-                            borderRadius: BorderRadius.circular(
-                              getHorizontalSize(
-                                4.00,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Biography",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.indigo50,
-                              fontSize: getFontSize(
-                                11,
-                              ),
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: getPadding(
-                            left: 8,
-                            top: 4,
-                            right: 8,
-                            bottom: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.orangeA20033,
-                            borderRadius: BorderRadius.circular(
-                              getHorizontalSize(
-                                4.00,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Comedy",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.indigo50,
-                              fontSize: getFontSize(
-                                11,
-                              ),
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: getPadding(
-                            left: 8,
-                            top: 4,
-                            right: 8,
-                            bottom: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.orangeA20033,
-                            borderRadius: BorderRadius.circular(
-                              getHorizontalSize(
-                                4.00,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Drama",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.indigo50,
-                              fontSize: getFontSize(
-                                11,
-                              ),
-                              fontFamily: 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),

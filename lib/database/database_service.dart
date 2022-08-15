@@ -1,5 +1,6 @@
 import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
+import 'package:assignment/models/movies/data/movie_dao.dart';
 import 'package:assignment/models/movies/data/movie_extended.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -69,7 +70,7 @@ class DatabaseService {
     final db = await _databaseService.database;
     await db.insert(
       'movies',
-      Movie.formattedMovieToJson(movieExtended),
+      Movie.formattedMovieDaoToJson(movieExtended),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -93,10 +94,10 @@ class DatabaseService {
     return Genre.fromJson(maps[0]);
   }
 
-  Future<List<Movie>> movies() async {
+  Future<List<MovieDao>> movies() async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query('movies');
-    return List.generate(maps.length, (index) => Movie.fromJson(maps[index]));
+    return List.generate(maps.length, (index) => MovieDao.fromJson(maps[index]));
   }
 
   // A method that updates a breed data from the breeds table.
