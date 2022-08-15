@@ -7,8 +7,8 @@ import 'package:assignment/database/database_service.dart';
 import 'package:assignment/models/movies/data/movie.dart';
 import 'package:assignment/models/movies/data/movie_extended.dart';
 import 'package:assignment/models/movies/movie_repository.dart';
-import 'package:assignment/screens/favourites/favourites_screen.dart';
-import 'package:assignment/screens/popular/popular_screen.dart';
+import 'package:assignment/screens/movies/favourites/favourites_screen.dart';
+import 'package:assignment/screens/movies/popular/popular_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,18 +26,20 @@ class _HomePageState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBody: true,
-      bottomNavigationBar: getCustomNavBar(),
-      body: BlocBuilder<NavigationCubit, NavigationState>(
-          builder: (context, state) {
-        if (state.navbarItem == NavbarItem.movies) {
-          return PopularScreen();
-        } else if (state.navbarItem == NavbarItem.favourites) {
-          return FavouritesScreen();
-        }
-        return Container();
-      }),
+    return SafeArea(
+      child: Scaffold(
+          extendBody: true,
+        bottomNavigationBar: getCustomNavBar(),
+        body: BlocBuilder<NavigationCubit, NavigationState>(
+            builder: (context, state) {
+          if (state.navbarItem == NavbarItem.movies) {
+            return PopularScreen();
+          } else if (state.navbarItem == NavbarItem.favourites) {
+            return FavouritesScreen();
+          }
+          return Container();
+        }),
+      ),
     );
   }
 

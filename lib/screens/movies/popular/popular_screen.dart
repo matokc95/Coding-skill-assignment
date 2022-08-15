@@ -1,4 +1,5 @@
 import 'package:assignment/common/app_export.dart';
+import 'package:assignment/components/loading.dart';
 import 'package:assignment/components/movie_list_item.dart';
 import 'package:assignment/database/database_service.dart';
 import 'package:assignment/models/genres/data/genre.dart';
@@ -6,8 +7,8 @@ import 'package:assignment/models/movies/data/movie.dart';
 import 'package:assignment/models/movies/data/movie_dao.dart';
 import 'package:assignment/models/movies/data/movie_extended.dart';
 import 'package:assignment/models/movies/movie_repository.dart';
-import 'package:assignment/screens/popular/widgets/listintouchables_item_widget.dart';
-import 'package:assignment/screens/popular/widgets/listtheboywhohar_item_widget.dart';
+import 'package:assignment/screens/movies/movie_details_screen.dart';
+import 'package:assignment/screens/movies/movie_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class PopularScreen extends StatefulWidget {
@@ -85,16 +86,48 @@ class _PopularScreenState extends State<PopularScreen> {
                         shrinkWrap: true,
                         itemCount: movies.length,
                         itemBuilder: (context, index) {
-                          return ListintouchablesItemWidget(movie: movies.keys.elementAt(index), genres: movies.values.elementAt(index),);
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(_createRoute(
+                                    movies.keys.elementAt(index),
+                                    movies.values.elementAt(index)));
+                              },
+                              child: MovieListItem(
+                                movie: movies.keys.elementAt(index),
+                                genres: movies.values.elementAt(index),
+                              ));
                         },
                       );
                     }
                   }
-                  return Container();
+                  return Loading();
                 }),
           ),
         ),
       ),
+    );
+  }
+
+  Route _createRoute(Movie movie, List<Genre> genres) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          MovieDetailsScreen(
+        movie: movie,
+        genres: genres,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = const Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.easeInOutCubic;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 

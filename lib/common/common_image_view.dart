@@ -2,9 +2,12 @@
 
 import 'dart:io';
 
+import 'package:assignment/common/app_export.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'color_constant.dart';
 
 class CommonImageView extends StatelessWidget {
   ///[url] is required parameter for fetching network image
@@ -15,6 +18,7 @@ class CommonImageView extends StatelessWidget {
   double? height;
   double? width;
   Color? color;
+  String? additionalText;
   final BoxFit fit;
   final String placeHolder;
 
@@ -28,6 +32,7 @@ class CommonImageView extends StatelessWidget {
     this.height,
     this.width,
     this.color,
+    this.additionalText,
     this.fit = BoxFit.fill,
     this.placeHolder = 'assets/images/image_not_found.png',
   });
@@ -42,12 +47,34 @@ class CommonImageView extends StatelessWidget {
       return Container(
         height: height,
         width: width,
-        child: SvgPicture.asset(
-          svgPath!,
-          height: height,
-          width: width,
-          color: color,
-          fit: fit,
+        child: Wrap(
+          children: [
+            Padding(
+              padding: getPadding(bottom: 20),
+              child: SvgPicture.asset(
+                svgPath!,
+                height: height,
+                width: width,
+                color: color,
+                fit: fit,
+              ),
+            ),
+            additionalText != null ?
+            Expanded(
+              child: Text(
+                additionalText!,
+                style: TextStyle(
+                  color: ColorConstant.indigo50,
+                  fontSize: getFontSize(
+                    22,
+                  ),
+                  fontFamily: 'SF Pro Display',
+                  fontWeight: FontWeight.w600,
+                  height: 1.00,
+                ),
+              ),
+            ) : Container()
+          ],
         ),
       );
     } else if (file != null && file!.path.isNotEmpty) {
@@ -62,7 +89,7 @@ class CommonImageView extends StatelessWidget {
         height: height,
         width: width,
         fit: fit,
-        imageUrl: url!,
+        imageUrl: Constants.IMAGES_PATH + url!,
         placeholder: (context, url) => Container(
           height: 30,
           width: 30,

@@ -4,5 +4,7 @@ class Constants {
   static const String BASE_URL_PATH = "https://" + API_AUTHORITY;
   static const String MOVIES_API_PATH =  "/movie";
   static const String GENRES_API_PATH =  "/genre/movie";
+  static const String IMAGES_PATH = "https://image.tmdb.org/t/p/w500";
+
 
 }
