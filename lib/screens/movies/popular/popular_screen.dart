@@ -34,65 +34,66 @@ class _PopularScreenState extends State<PopularScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: ColorConstant.gray900,
-          title: Padding(
-            padding: getPadding(
-              top: 29,
-              right: 23,
-            ),
-            child: CommonImageView(
-              svgPath: ImageConstant.imgLocation24X24,
-              height: getSize(
-                24.00,
+          appBar: AppBar(
+            backgroundColor: ColorConstant.gray900,
+            title: Padding(
+              padding: getPadding(
+                top: 29,
+                right: 23,
               ),
-              width: getSize(
-                24.00,
+              child: CommonImageView(
+                svgPath: ImageConstant.imgLocation24X24,
+                height: getSize(
+                  24.00,
+                ),
+                width: getSize(
+                  24.00,
+                ),
               ),
             ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: getPadding(left: 15, right: 20, bottom: 10),
-                  child: Text(
-                    "Popular",
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: ColorConstant.indigo50,
-                      fontSize: getFontSize(
-                        22,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: getPadding(left: 15, right: 20, bottom: 10),
+                    child: Text(
+                      "Popular",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.indigo50,
+                        fontSize: getFontSize(
+                          22,
+                        ),
+                        fontFamily: 'SF Pro Display',
+                        fontWeight: FontWeight.w600,
+                        height: 1.00,
                       ),
-                      fontFamily: 'SF Pro Display',
-                      fontWeight: FontWeight.w600,
-                      height: 1.00,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        backgroundColor: ColorConstant.gray900,
-        body: PagedListView<int, MovieWithGenres>(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<MovieWithGenres>(
-              itemBuilder: (context, item, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(_createRoute(item));
-                  },
-                  child: MovieListItem(
-                    movieWithGenres: item,
-                  ),
-                );
-              }),
-        )
-      ),
+          backgroundColor: ColorConstant.gray900,
+          body: PagedListView<int, MovieWithGenres>(
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate<MovieWithGenres>(
+                newPageProgressIndicatorBuilder: (context) {
+              return Center(child: CircularProgressIndicator(color: ColorConstant.orangeA200));
+            }, itemBuilder: (context, item, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(_createRoute(item));
+                },
+                child: MovieListItem(
+                  movieWithGenres: item,
+                ),
+              );
+            }),
+          )),
     );
   }
 
