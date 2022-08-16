@@ -3,13 +3,13 @@ import 'package:assignment/common/custom_icon_button.dart';
 import 'package:assignment/components/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
+import 'package:assignment/models/movies/data/movie_with_genres.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  final Movie movie;
-  final List<Genre> genres;
+  final MovieWithGenres movieWithGenres;
 
-  const MovieDetailsScreen({Key? key, required this.movie, required this.genres}) : super(key: key);
+  const MovieDetailsScreen({Key? key, required this.movieWithGenres}) : super(key: key);
 
   @override
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
@@ -42,7 +42,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         alignment: Alignment.topLeft,
                         child: ClipRRect(
                           child: CommonImageView(
-                            url: widget.movie.backdropPath,
+                            url: widget.movieWithGenres.movie!.backdropPath,
                             height: getVerticalSize(
                               280.00,
                             ),
@@ -82,8 +82,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ),
               CustomBottomSheet(
-                movie: widget.movie,
-                genres: widget.genres,
+                movie: widget.movieWithGenres.movie!,
+                genres: widget.movieWithGenres.genres!,
                 initialChildSize: 0.7,
                 minChildSize: 0.5,
                 maxChildSize: 1,

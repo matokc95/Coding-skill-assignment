@@ -1,14 +1,14 @@
 import 'package:assignment/common/app_export.dart';
 import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
+import 'package:assignment/models/movies/data/movie_with_genres.dart';
 import 'package:flutter/material.dart';
 
 class MovieListItem extends StatefulWidget {
-  final Movie movie;
-  final List<Genre> genres;
+  final MovieWithGenres movieWithGenres;
 
   const MovieListItem(
-      {Key? key, required this.movie, required this.genres})
+      {Key? key, required this.movieWithGenres})
       : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class _MovieListItemState
                 ),
               ),
               child: CommonImageView(
-               url: widget.movie.posterPath,
+               url: widget.movieWithGenres.movie!.posterPath,
                 height: getSize(
                   100.00,
                 ),
@@ -65,7 +65,7 @@ class _MovieListItemState
                       right: 10,
                     ),
                     child: Text(
-                      widget.movie.originalTitle ?? "N/A",
+                      widget.movieWithGenres.movie!.originalTitle ?? "N/A",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -110,8 +110,8 @@ class _MovieListItemState
                             top: 2,
                           ),
                           child: Text(
-                            widget.movie.voteAverage != null
-                                ? "${widget.movie.voteAverage!.toStringAsFixed(1)} / 10 IMDb"
+                            widget.movieWithGenres.movie!.voteAverage != null
+                                ? "${widget.movieWithGenres.movie!.voteAverage!.toStringAsFixed(1)} / 10 IMDb"
                                 : "N/A",
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
@@ -138,7 +138,7 @@ class _MovieListItemState
                           children: [
                             Wrap(
                                 children: [
-                                  for (Genre genre in widget.genres)
+                                  for (Genre genre in widget.movieWithGenres.genres!)
                                     Padding(
                                       padding: getPadding(right: 10, top: 10),
                                       child: Container(

@@ -6,10 +6,12 @@ import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
 import 'package:assignment/models/movies/data/movie_dao.dart';
 import 'package:assignment/models/movies/data/movie_extended.dart';
+import 'package:assignment/models/movies/data/movie_with_genres.dart';
 import 'package:assignment/models/movies/movie_repository.dart';
 import 'package:assignment/screens/movies/movie_details_screen.dart';
 import 'package:assignment/screens/movies/movie_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PopularScreen extends StatefulWidget {
   const PopularScreen({Key? key}) : super(key: key);
@@ -20,6 +22,11 @@ class PopularScreen extends StatefulWidget {
 
 class _PopularScreenState extends State<PopularScreen> {
   late DatabaseService _databaseService;
+
+  static const _pageSize = 20;
+
+  final PagingController<int, MovieWithGenres> _pagingController =
+      PagingController(firstPageKey: 1);
 
   int numOfMovies = 0;
 
@@ -71,49 +78,29 @@ class _PopularScreenState extends State<PopularScreen> {
           ),
         ),
         backgroundColor: ColorConstant.gray900,
-        body: SizedBox(
-          width: size.width,
-          child: SingleChildScrollView(
-            child: FutureBuilder(
-                future: getMoviesFromLocalDb(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data is Map<Movie, List<Genre>>) {
-                      Map<Movie, List<Genre>> movies = snapshot.data!;
-                      return ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: movies.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(_createRoute(
-                                    movies.keys.elementAt(index),
-                                    movies.values.elementAt(index)));
-                              },
-                              child: MovieListItem(
-                                movie: movies.keys.elementAt(index),
-                                genres: movies.values.elementAt(index),
-                              ));
-                        },
-                      );
-                    }
-                  }
-                  return Loading();
-                }),
-          ),
-        ),
+        body: PagedListView<int, MovieWithGenres>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<MovieWithGenres>(
+              itemBuilder: (context, item, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(_createRoute(item));
+                  },
+                  child: MovieListItem(
+                    movieWithGenres: item,
+                  ),
+                );
+              }),
+        )
       ),
     );
   }
 
-  Route _createRoute(Movie movie, List<Genre> genres) {
+  Route _createRoute(MovieWithGenres movieWithGenres) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           MovieDetailsScreen(
-        movie: movie,
-        genres: genres,
+        movieWithGenres: movieWithGenres,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(0.0, 1.0);
@@ -135,12 +122,16 @@ class _PopularScreenState extends State<PopularScreen> {
   void initState() {
     super.initState();
     _databaseService = DatabaseService();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     //getMoviesFromLocalDb();
   }
 
-  Future<Map<Movie, List<Genre>>> getMoviesFromLocalDb() async {
+  Future<List<MovieWithGenres>> getMoviesFromLocalDb(int pageKey) async {
+    List<MovieWithGenres> moviesWithGenresList = [];
     List<MovieExtended>? movies =
-        await MovieRepository.getPopularMovies(pageNumber: 1);
+        await MovieRepository.getPopularMovies(pageNumber: pageKey);
 
     var counter = Map<int, int>.fromEntries(movies!
         .toSet()
@@ -149,10 +140,11 @@ class _PopularScreenState extends State<PopularScreen> {
 
     numOfMovies = counter.length;
 
-    Map<Movie, List<Genre>> formattedMovies = {};
+    //Map<Movie, List<Genre>> formattedMovies = {};
 
     int lastMovieId = 0;
     for (MovieExtended movie in movies) {
+      MovieWithGenres movieWithGenres = MovieWithGenres();
       if (movie.movie.id != lastMovieId) {
         List<Genre> genres = [];
         movies.forEach((element) {
@@ -160,11 +152,36 @@ class _PopularScreenState extends State<PopularScreen> {
             genres.add(element.genre!);
           }
         });
-        formattedMovies.putIfAbsent(movie.movie, () => genres);
+        movieWithGenres.movie = movie.movie;
+        movieWithGenres.genres = genres;
+        moviesWithGenresList.add(movieWithGenres);
+        //formattedMovies.putIfAbsent(movie.movie, () => genres);
         lastMovieId = movie.movie.id;
       }
     }
+    print("Fetched!");
 
-    return formattedMovies;
+    return moviesWithGenresList;
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await getMoviesFromLocalDb(pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }
