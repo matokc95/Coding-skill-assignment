@@ -6,6 +6,7 @@ import 'package:assignment/models/movies/data/movie.dart';
 import 'package:assignment/models/movies/data/movie_with_genres.dart';
 import 'package:assignment/providers/refresh_movie_list_item_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/movies/data/movie_dao.dart';
@@ -314,8 +315,14 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     if (movieDao != null) {
       if (widget.movieWithGenres.favourite) {
         movieDao.favourite = 1;
+        await Fluttertoast.showToast(
+            msg: "Movie added to favourites!",
+            backgroundColor: ColorConstant.orangeA200);
       } else {
         movieDao.favourite = 0;
+        await Fluttertoast.showToast(
+            msg: "Movie removed from favourites!",
+            backgroundColor: ColorConstant.orangeA200);
       }
       await _databaseService.updateMovie(movieDao);
       Provider.of<MovieListItemRefreshProvider>(context, listen: false)
