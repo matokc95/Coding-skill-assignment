@@ -1,18 +1,16 @@
 import 'package:assignment/models/genres/data/genre.dart';
-import 'package:assignment/models/movie_language/spoken_language.dart';
-import 'package:assignment/models/production/company/production_company.dart';
-import 'package:assignment/models/production/country/production_country.dart';
+import 'package:assignment/models/movies/data/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../collections/collection.dart';
 
 part 'movie_details.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class MovieDetails {
 
   bool adult;
-  Collection? backdropPath;
+  String? backdropPath;
   int budget;
   List<Genre> genres;
   String homepage;
@@ -23,12 +21,9 @@ class MovieDetails {
   String overview;
   double popularity;
   String posterPath;
-  List<ProductionCompany> productionCompanies;
-  List<ProductionCountry> productionCountries;
   DateTime releaseDate;
   int revenue;
   int runtime;
-  List<SpokenLanguage> spokenLanguages;
   String status;
   String tagline;
   String title;
@@ -50,12 +45,9 @@ class MovieDetails {
       this.overview,
       this.popularity,
       this.posterPath,
-      this.productionCompanies,
-      this.productionCountries,
       this.releaseDate,
       this.revenue,
       this.runtime,
-      this.spokenLanguages,
       this.status,
       this.tagline,
       this.title,
@@ -64,6 +56,25 @@ class MovieDetails {
       this.voteCount);
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) => _$MovieDetailsFromJson(json);
+
+  static Movie movieDetailsToMovie(MovieDetails movieDetails){
+    return Movie(
+      movieDetails.id,
+      movieDetails.adult,
+      movieDetails.backdropPath,
+      (movieDetails.genres).map((e) => e.id).toList(),
+      movieDetails.originalLanguage,
+      movieDetails.originalTitle,
+      movieDetails.overview,
+      (movieDetails.popularity).toDouble(),
+      movieDetails.posterPath,
+      movieDetails.releaseDate,
+      movieDetails.title,
+      movieDetails.video,
+      (movieDetails.voteAverage).toDouble(),
+      movieDetails.voteCount,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$MovieDetailsToJson(this);
 }

@@ -82,8 +82,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ),
               CustomBottomSheet(
-                movie: widget.movieWithGenres.movie!,
-                genres: widget.movieWithGenres.genres!,
+                movieWithGenres: widget.movieWithGenres,
                 initialChildSize: 0.7,
                 minChildSize: 0.5,
                 maxChildSize: 1,

@@ -53,8 +53,11 @@ class Movie {
       'video': movieExtended.movie.video,
       'voteAverage': movieExtended.movie.voteAverage,
       'voteCount': movieExtended.movie.voteCount,
+      'favourite': 0
     };
   }
+
+
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 

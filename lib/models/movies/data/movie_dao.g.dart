@@ -21,6 +21,7 @@ MovieDao _$MovieDaoFromJson(Map<String, dynamic> json) => MovieDao(
       json['video'] as int?,
       (json['voteAverage'] as num?)?.toDouble(),
       json['voteCount'] as int?,
+      json['favourite'] as int?,
     );
 
 Map<String, dynamic> _$MovieDaoToJson(MovieDao instance) => <String, dynamic>{
@@ -38,4 +39,5 @@ Map<String, dynamic> _$MovieDaoToJson(MovieDao instance) => <String, dynamic>{
       'video': instance.video,
       'voteAverage': instance.voteAverage,
       'voteCount': instance.voteCount,
+      'favourite': instance.favourite,
     };

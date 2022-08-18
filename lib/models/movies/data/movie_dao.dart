@@ -1,3 +1,4 @@
+import 'package:assignment/models/movies/data/movie.dart';
 import 'package:assignment/models/movies/data/movie_extended.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -19,6 +20,7 @@ class MovieDao {
   int? video;
   double? voteAverage;
   int? voteCount;
+  int? favourite;
 
 
   MovieDao(
@@ -35,7 +37,8 @@ class MovieDao {
       this.title,
       this.video,
       this.voteAverage,
-      this.voteCount);
+      this.voteCount,
+      this.favourite);
 
 
   factory MovieDao.fromJson(Map<String, dynamic> json) => _$MovieDaoFromJson(json);

@@ -1,8 +1,14 @@
 import 'package:assignment/common/app_export.dart';
+import 'package:assignment/database/database_service.dart';
 import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
+import 'package:assignment/models/movies/data/movie_dao.dart';
+import 'package:assignment/models/movies/data/movie_details.dart';
 import 'package:assignment/models/movies/data/movie_with_genres.dart';
+import 'package:assignment/providers/refresh_movie_list_item_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class MovieListItem extends StatefulWidget {
   final MovieWithGenres movieWithGenres;
@@ -18,6 +24,16 @@ class MovieListItem extends StatefulWidget {
 
 class _MovieListItemState
     extends State<MovieListItem> {
+
+  late DatabaseService _databaseService;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _databaseService = DatabaseService();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -187,13 +203,23 @@ class _MovieListItemState
                 top: 2,
                 bottom: 79,
               ),
-              child: CommonImageView(
-                svgPath: ImageConstant.imgBookmark,
-                height: getVerticalSize(
-                  18.00,
-                ),
-                width: getHorizontalSize(
-                  17.00,
+              child: GestureDetector(
+                onTap: (){
+                  if(widget.movieWithGenres.favourite){
+                    widget.movieWithGenres.favourite = false;
+                  }else{
+                    widget.movieWithGenres.favourite = true;
+                  }
+                  setMovieAsFavourite();
+                },
+                child: CommonImageView(
+                  svgPath: widget.movieWithGenres.favourite ? ImageConstant.imgBookmark : ImageConstant.imgBookmark18X14,
+                  height: getVerticalSize(
+                    18.00,
+                  ),
+                  width: getHorizontalSize(
+                    17.00,
+                  ),
                 ),
               ),
             ),
@@ -201,5 +227,28 @@ class _MovieListItemState
         ),
       ),
     );
+  }
+
+  Future<void> setMovieAsFavourite() async {
+    MovieDao? movieDao = await _databaseService.selectMovieById(widget.movieWithGenres.movie!.id);
+    if(movieDao != null){
+      if(widget.movieWithGenres.favourite){
+        movieDao.favourite = 1;
+        await Fluttertoast.showToast(
+            msg: "Movie added to favourites!",
+            backgroundColor: ColorConstant.orangeA200);
+      }else{
+        movieDao.favourite = 0;
+        await Fluttertoast.showToast(
+            msg: "Movie removed from favourites!",
+            backgroundColor: ColorConstant.orangeA200);
+      }
+      await _databaseService.updateMovie(movieDao);
+      Provider.of<MovieListItemRefreshProvider>(context, listen: false)
+          .toggleRefresh(true);
+    }
+    setState(() {
+
+    });
   }
 }

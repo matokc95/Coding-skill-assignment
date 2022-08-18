@@ -12,6 +12,8 @@ import 'package:assignment/screens/movies/popular/popular_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../models/movies/data/movie_dao.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getData();
+    cacheData();
   }
 
 
@@ -203,12 +205,15 @@ class _HomePageState extends State<HomeScreen> {
     );
   }
 
-  getData() async {
+  cacheData() async {
     _databaseService = DatabaseService();
     List<MovieExtended>? movies = await MovieRepository.getPopularMovies(pageNumber: 1);
     if(movies != null){
       for(MovieExtended movieExtended in movies){
-        _databaseService.insertMovie(movieExtended);
+        MovieDao? movieExistInDb = await _databaseService.selectMovieById(movieExtended.movie.id);
+        if(movieExistInDb == null){
+          _databaseService.insertMovie(movieExtended);
+        }
       }
     }
    
