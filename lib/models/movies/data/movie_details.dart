@@ -2,8 +2,6 @@ import 'package:assignment/models/genres/data/genre.dart';
 import 'package:assignment/models/movies/data/movie.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../collections/collection.dart';
-
 part 'movie_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
